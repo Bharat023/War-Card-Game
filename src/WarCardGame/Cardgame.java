@@ -4,7 +4,7 @@
  */
 package WarCardGame;
 
-import java.util.Random;
+
 import java.util.Scanner;
 
 /**
@@ -13,59 +13,52 @@ import java.util.Scanner;
  */
 public class Cardgame {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
-                // TODO code application logic here
         Scanner input = new Scanner(System.in);
-        Card[] hand = new Card[7];
-        Random random = new Random();
-        for (int i = 0; i < hand.length; i++) 
-        {
-//            int value = random.nextInt(13)+1;
-//            String suit = Card.SUITS[random.nextInt(4)];
-            Card.Value value = Card.Value.values()[random.nextInt(Card.Value.values().length)];
-            Card.Suit suit = Card.Suit.values()[random.nextInt(Card.Suit.values().length)];
+        Deck deck = new Deck(); // Create a shuffled deck
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
 
-            
-            Card card = new Card(value, suit);
-            hand[i] = card;
-        }
-        //print each card so we can see what was generated
-        for (Card card : hand) {
-            System.out.println(card.getValue() + " of " + card.getSuit());
-        }
-
-        //ask user for Card
-        System.out.println("Please choose a suit for your lucky card:");
-//        for (int i = 0; i < Card.SUITS.length; i++) {
-//            System.out.println((i + 1) + ": " + Card.SUITS[i]);
-//        }
-        Card.Suit[] suits = Card.Suit.values();
-        for (int i = 0; i < suits.length; i++) {
-            System.out.println((i + 1) + ": " + suits[i]);
-        }
+        System.out.println("Starting War Card Game...");
         
-        int suit = input.nextInt();
-        System.out.println("Enter a value (1 to 13)");
-        int value = input.nextInt();
-        //create new Card with the two values chosen
-//        Card userGuess = new Card(value,Card.SUITS[suit-1]);
-//
- Card userGuess = new Card(Card.Value.values()[value], Card.Suit.values()[suit]);
-       
- //check if it matches
-        boolean match = false;
-        for (Card card : hand) {
-            if (card.getValue() == userGuess.getValue()
-                    && (card.getSuit().equals(userGuess.getSuit()))) {
-                match = true;
-                break;
+        // Play exactly 4 rounds
+        for (int round = 1; round <= 4; round++) {
+            System.out.println("\nRound " + round);
+
+            // Each player draws a card from the deck
+            Card card1 = player1.draw(deck);
+            Card card2 = player2.draw(deck);
+
+            // Display drawn cards
+            System.out.println(player1.getName() + " drew: " + card1);
+            System.out.println(player2.getName() + " drew: " + card2);
+
+            // Compare card values
+            if (card1.getValue().ordinal() > card2.getValue().ordinal()) {
+                player1.addScore();
+                System.out.println(player1.getName() + " wins this round!");
+            } else if (card1.getValue().ordinal() < card2.getValue().ordinal()) {
+                player2.addScore();
+                System.out.println(player2.getName() + " wins this round!");
+            } else {
+                System.out.println("This round is a tie!");
             }
+
+            // Display updated scores
+            System.out.println("Scores -> " + player1.getName() + ": " + player1.getScore() +
+                    " | " + player2.getName() + ": " + player2.getScore());
         }
-        System.out.println("Did you guess it? " + match);
-    
+
+        // Determine the overall winner
+        System.out.println("\nGame Over!");
+        if (player1.getScore() > player2.getScore()) {
+            System.out.println(player1.getName() + " wins the game with " + player1.getScore() + " points!");
+        } else if (player1.getScore() < player2.getScore()) {
+            System.out.println(player2.getName() + " wins the game with " + player2.getScore() + " points!");
+        } else {
+            System.out.println("The game is a tie!");
+        }
+
+        input.close(); // Close Scanner
     }
 }

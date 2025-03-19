@@ -9,54 +9,32 @@ package WarCardGame;
  * @author bhara
  */
 public class Card {
-// // Example using Array
-//    private int value;
-//    private String suit;
-//
-//    public static final String[] SUITS={
-//       "HEARTS", "CLUBS","SPADES", "DIAMONDS" };   
-//    
-//    public Card(int value, String suit)
-//    {
-//        this.value = value;
-//        this.suit = suit;
-//    }
-//
-//    public String getSuit() {
-//        return suit;
-//    }
-//
-//    public void setSuit(String suit) {
-//        this.suit = suit;
-//    }
-//    
-//    public int getValue() {
-//        return value;
-//    }
-//    
-//    public void setValue(int value) {
-//        this.value = value;
-//    }
 
-	
-//    //Example using Enum
-   public enum Suit {
-      HEARTS, CLUBS, SPADES, DIAMONDS
-   }
-
-   public enum Value {
-        ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING,
-        JACL
-    }
-    private Value value;
-    private Suit suit;
-
-   public Card(Value v, Suit s) {
-       value = v;
-       suit = s;
+    // Using Enum for Suit (Aggregation Relationship: Each Card has a Suit)
+    public enum Suit {
+        HEARTS, CLUBS, SPADES, DIAMONDS;
     }
 
-   public Value getValue() {
+    // Using Enum for Value (Ranking for Game Logic)
+    public enum Value {
+        TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE
+    }
+
+    private Value value; // Card Value (Encapsulation)
+    private Suit suit;   // Card Suit (Encapsulation)
+
+    /**
+     * Constructor for creating a Card object.
+     * @param value - Card value (enum)
+     * @param suit - Card suit (enum)
+     */
+    public Card(Value value, Suit suit) {
+        this.value = value;
+        this.suit = suit;
+    }
+
+    // Getters and Setters (Encapsulation)
+    public Value getValue() {
         return value;
     }
 
@@ -70,5 +48,10 @@ public class Card {
 
     public void setSuit(Suit suit) {
         this.suit = suit;
+    }
+
+    @Override
+    public String toString() {
+        return value + " of " + suit;
     }
 }
