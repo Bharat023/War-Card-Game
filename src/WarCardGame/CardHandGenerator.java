@@ -9,7 +9,7 @@ package WarCardGame;
  * @author bhara
  * * Utility class for generating a random hand of cards.
  *
- * Design Patterns:
+ * Design Patterns
  * - Factory: This class generates Card objects and returns them in bulk.
  *
  * SOLID Principles:
